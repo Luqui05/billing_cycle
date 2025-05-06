@@ -2,10 +2,10 @@
   "name": "billing-cycle-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "src/loader.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "nodemon",
-    "production": "pm2 start src/loader.js --name billing-cycle-backend"
+    "production": "pm2 start src/index.js --name billing-cycle-backend"
   },
   "keywords": [],
   "author": "",
