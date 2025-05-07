@@ -15,9 +15,35 @@ router.get("/", async (req, res) => {
 router.get("/count", async (req, res) => {
     try {
         const value = await BillingCycle.countDocuments();
-        res.status(200).json({ value })
+        res.status(200).json({ value });
     } catch (error) {
-        res.status(500).json({ errors: [error] })
+        res.status(500).json({ errors: [error] });
+    }
+});
+
+router.get("/summary", async (req, res) => {
+    try {
+        const result = await BillingCycle.aggregate([
+            {
+                $project: {
+                    credit: { $sum: "$credits.value" },
+                    debt: { $sum: "$debts.value" },
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    credit: { $sum: "$credit" },
+                    debt: { $sum: "$debt" },
+                },
+            },
+            {
+                $project: { _id: 0, credit: 1, debt: 1 },
+            },
+        ]);
+        res.status(200).json(result[0] || { credit: 0, debt: 0 });
+    } catch (error) {
+        res.status(500).json({ errors: [error] });
     }
 });
 
