@@ -1,7 +1,9 @@
 const express = require("express");
 const BillingCycle = require("./billingCycle");
+const errorHandler = require("../common/errorHandler");
 
 const router = express.Router();
+BillingCycle.after("post", errorHandler).after("put", errorHandler);
 
 router.get("/", async (req, res) => {
     try {
@@ -47,31 +49,39 @@ router.get("/summary", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
-    try {
-        const billingCycle = new BillingCycle(req.body);
-        await billingCycle.save();
-        res.status(201).json(billingCycle);
-    } catch (err) {
-        res.status(400).json({ errors: [err] });
-    }
-});
+router.post(
+    "/",
+    async (req, res, next) => {
+        try {
+            const billingCycle = new BillingCycle(req.body);
+            await billingCycle.save();
+            res.status(201).json(billingCycle);
+        } catch (err) {
+            next(err);
+        }
+    },
+    errorHandler
+);
 
-router.put("/:id", async (req, res) => {
-    try {
-        const billingCycle = await BillingCycle.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true,
-                runValidators: true,
-            }
-        );
-        res.json(billingCycle);
-    } catch (err) {
-        res.status(400).json({ errors: [err] });
-    }
-});
+router.put(
+    "/:id",
+    async (req, res, next) => {
+        try {
+            const billingCycle = await BillingCycle.findByIdAndUpdate(
+                req.params.id,
+                req.body,
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+            res.json(billingCycle);
+        } catch (err) {
+            next(err);
+        }
+    },
+    errorHandler
+);
 
 router.delete("/:id", async (req, res) => {
     try {
