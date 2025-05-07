@@ -7,7 +7,10 @@ BillingCycle.after("post", errorHandler).after("put", errorHandler);
 
 router.get("/", async (req, res) => {
     try {
-        const billingCycles = await BillingCycle.find();
+        const { skip = 0, limit = 10 } = req.query;
+        const billingCycles = await BillingCycle.find()
+            .skip(Number(skip))
+            .limit(Number(limit));
         res.json(billingCycles);
     } catch (err) {
         res.status(500).json({ errors: [err] });
