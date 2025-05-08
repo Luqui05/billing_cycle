@@ -12,7 +12,7 @@ module.exports = {
         contentBase: "./public",
     },
     resolve: {
-        extensions: ["", ".js", ".jsx"], // String vazia é suportada no Webpack 1
+        extensions: ["", ".js", ".jsx"],
         alias: {
             modules: __dirname + "/node_modules",
             jquery: "modules/admin-lte/plugins/jQuery/jquery-2.2.3.min.js",
@@ -30,11 +30,11 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /.jsx?$/, // Suporte para .js e .jsx
+                test: /.js[x]?$/,
                 loader: "babel-loader",
                 exclude: /node_modules/,
                 query: {
-                    presets: ["es2015", "react"], // Certifique-se de que esses presets estão instalados
+                    presets: ["es2015", "react"],
                     plugins: ["transform-object-rest-spread"],
                 },
             },
@@ -43,8 +43,8 @@ module.exports = {
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader"),
             },
             {
-                test: /\.(woff|woff2|ttf|eot|svg|png|jpg)$/,
-                loader: "file-loader",
+                test: /\.(woff|woff2|ttf|eot|svg|png|jpg)(\?.*)?$/,
+                loader: 'file-loader'
             },
         ],
     },
