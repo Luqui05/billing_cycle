@@ -4,7 +4,7 @@ import labelAndInput from "../common/form/labelAndInput";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { init } from "./billingCycleActions";
-import CreditList from "./creditList";
+import ItemList from "./itemList";
 
 class BillingCycleForm extends Component {
     render() {
@@ -36,7 +36,13 @@ class BillingCycleForm extends Component {
                         cols="12 4"
                         placeholder="Informe o ano"
                     ></Field>
-                    <CreditList cols="12 6" list={credits} readOnly={readOnly}></CreditList>
+                    <ItemList
+                        cols="12 6"
+                        list={credits}
+                        readOnly={readOnly}
+                        field="credits"
+                        legend="Créditos"
+                    ></ItemList>
                 </div>
                 <div className="box-footer">
                     <button
@@ -63,6 +69,6 @@ BillingCycleForm = reduxForm({
     destroyOnUnmount: false,
 })(BillingCycleForm);
 const selector = formValueSelector("billingCycleForm");
-const mapStateToProps = (state) => ({ credits: selector(state, 'credits') });
+const mapStateToProps = (state) => ({ credits: selector(state, "credits") });
 const mapDispatchToProps = (dispatch) => bindActionCreators({ init }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(BillingCycleForm);
