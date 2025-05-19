@@ -22,20 +22,34 @@ export function update(values) {
     return submit(values, "put");
 }
 
+export function remove(values) {
+    return submit(values, "delete");
+}
+
 function submit(values, method) {
     return (dispatch) => {
-        const id = values._id ? values._id : ''
-        axios[method](`${BASE_URL}/billingCycles/${id}`, values).then((resp) => {
-            toastr.success("Sucesso", "Operação realizada com sucesso");
-            dispatch(init());
-        });
+        const id = values._id ? values._id : "";
+        axios[method](`${BASE_URL}/billingCycles/${id}`, values).then(
+            (resp) => {
+                toastr.success("Sucesso", "Operação realizada com sucesso");
+                dispatch(init());
+            }
+        );
     };
 }
 
 export function showUpdate(billingCycle) {
+    return showOperation(billingCycle, "tabUpdate");
+}
+
+export function showDelete(billingCycle) {
+    return showOperation(billingCycle, "tabDelete");
+}
+
+function showOperation(billingCycle, tabId) {
     return [
-        showTabs("tabUpdate"),
-        selectTab("tabUpdate"),
+        showTabs(tabId),
+        selectTab(tabId),
         initialize("billingCycleForm", billingCycle),
     ];
 }

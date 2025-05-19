@@ -7,13 +7,14 @@ import { init } from "./billingCycleActions";
 
 class BillingCycleForm extends Component {
     render() {
-        const { handleSubmit } = this.props;
+        const { handleSubmit, readOnly } = this.props;
         return (
             <form role="form" onSubmit={handleSubmit}>
                 <div className="box-body">
                     <Field
                         name="name"
                         component={labelAndInput}
+                        readOnly={readOnly}
                         label="Nome"
                         cols="12 4"
                         placeholder="Informe o nome"
@@ -21,6 +22,7 @@ class BillingCycleForm extends Component {
                     <Field
                         name="month"
                         component={labelAndInput}
+                        readOnly={readOnly}
                         label="Mês"
                         cols="12 4"
                         placeholder="Informe o mês"
@@ -28,6 +30,7 @@ class BillingCycleForm extends Component {
                     <Field
                         name="year"
                         component={labelAndInput}
+                        readOnly={readOnly}
                         label="Ano"
                         cols="12 4"
                         placeholder="Informe o ano"
@@ -54,5 +57,5 @@ BillingCycleForm = reduxForm({
     form: "billingCycleForm",
     destroyOnUnmount: false,
 })(BillingCycleForm);
-const mapDispatchToProps = (dispatch) => bindActionCreators({init}, dispatch);
-export default connect(null, mapDispatchToProps)(BillingCycleForm)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ init }, dispatch);
+export default connect(null, mapDispatchToProps)(BillingCycleForm);
