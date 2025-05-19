@@ -37,8 +37,8 @@ class BillingCycleForm extends Component {
                     ></Field>
                 </div>
                 <div className="box-footer">
-                    <button type="submit" className="btn btn-primary">
-                        Submit
+                    <button type="submit" className={`btn btn-${this.props.submitClass}`}>
+                        {this.props.submitLabel}
                     </button>
                     <button
                         type="button"
