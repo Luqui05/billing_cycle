@@ -4,11 +4,17 @@ import Grid from "../common/layout/grid";
 import Input from "../common/form/input";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import If from "../common/operador/if";
 
 class ItemList extends Component {
     add(index, item = {}) {
         if (!this.props.readOnly) {
-            this.props.arrayInsert("billingCycleForm", this.props.field, index, item);
+            this.props.arrayInsert(
+                "billingCycleForm",
+                this.props.field,
+                index,
+                item
+            );
         }
     }
 
@@ -38,6 +44,16 @@ class ItemList extends Component {
                         readOnly={this.props.readOnly}
                     ></Field>
                 </td>
+                <If test={this.props.showStatus}>
+                    <td>
+                        <Field
+                            name={`${this.props.field}[${index}].status`}
+                            component={Input}
+                            placeholder="Informe o status"
+                            readOnly={this.props.readOnly}
+                        ></Field>
+                    </td>
+                </If>
                 <td>
                     <button
                         type="button"
@@ -75,6 +91,9 @@ class ItemList extends Component {
                             <tr>
                                 <th>Nome</th>
                                 <th>Valor</th>
+                                <If test={this.props.showStatus}>
+                                    <th>Status</th>
+                                </If>
                                 <th>Ações</th>
                             </tr>
                         </thead>
